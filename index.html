@@ -15,7 +15,7 @@
 body{margin:0;background:var(--bg);color:var(--ink);font-family:"Hiragino Sans","Yu Gothic",Meiryo,sans-serif;}
 header{background:#fff;border-bottom:3px solid var(--p2);position:sticky;top:0;z-index:5}
 .hwrap{max-width:1100px;margin:0 auto;display:flex;align-items:center;gap:12px 24px;padding:8px 16px;flex-wrap:wrap}
-.logo{height:64px;width:auto;display:block;flex:none}
+.logo{height:64px;width:auto;display:block;flex:none;overflow:visible}
 nav{display:flex;gap:4px;flex-wrap:wrap}
 nav a{padding:8px 16px;border-radius:999px;text-decoration:none;color:var(--p2);font-weight:600;font-size:14px;border:1px solid transparent}
 nav a:hover{background:var(--soft)}
@@ -109,11 +109,33 @@ dt{color:var(--sub)}dd{margin:0}
 .bar span:last-child{width:46px;text-align:right}
 .msg{padding:40px;text-align:center;color:var(--sub);line-height:1.8}
 footer{text-align:center;font-size:12px;color:var(--sub);padding:24px}
+
+/* hero */
+.hero{position:relative;height:340px;border-radius:20px;overflow:hidden;background:linear-gradient(135deg,#ffd3f7,#d9a8ff);margin-bottom:18px;box-shadow:0 6px 20px rgba(177,0,200,.18)}
+.hero.loading{display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700}
+.slide{position:absolute;inset:0;display:flex;align-items:stretch;justify-content:space-between;opacity:0;transition:opacity .8s;cursor:pointer;pointer-events:none}
+.slide.on{opacity:1;pointer-events:auto}
+.sbg{position:absolute;inset:-24px;background-size:cover;background-position:center top;filter:blur(24px) saturate(1.1);opacity:.6}
+.slide::after{content:'';position:absolute;inset:0;z-index:1;background:linear-gradient(90deg,rgba(255,240,255,.93) 0%,rgba(255,240,255,.6) 45%,rgba(255,240,255,0) 78%)}
+.stext{position:relative;z-index:2;padding:32px 40px;align-self:center;max-width:58%}
+.slabel{font-size:12px;letter-spacing:.12em;color:var(--edge);font-weight:700}
+.sname{font-size:34px;font-weight:700;line-height:1.25;margin:4px 0 2px}
+.syomi{font-size:13px;color:var(--sub);margin-bottom:10px}
+.sscore{margin-top:10px;font-size:14px;color:var(--sub)}
+.sscore b{color:var(--edge);font-size:20px}
+.sphoto{position:relative;z-index:2;height:88%;aspect-ratio:3/4;align-self:center;margin-right:7%;border-radius:16px;overflow:hidden;box-shadow:0 8px 24px rgba(80,0,100,.3)}
+.sphoto img{width:100%;height:100%;object-fit:cover;display:block}
+.hnav{position:absolute;top:50%;transform:translateY(-50%);z-index:3;width:38px;height:38px;border-radius:50%;border:none;background:rgba(255,255,255,.88);color:var(--edge);font-size:22px;line-height:1;cursor:pointer}
+.hnav.prev{left:10px}.hnav.next{right:10px}
+.dots{position:absolute;bottom:10px;left:0;right:0;display:flex;justify-content:center;gap:5px;z-index:3;flex-wrap:wrap;padding:0 56px}
+.dot{width:8px;height:8px;border-radius:4px;border:none;padding:0;background:rgba(177,0,200,.3);cursor:pointer;transition:width .25s}
+.dot.on{background:var(--edge);width:22px}
+@media(max-width:560px){.hero{height:300px}.sname{font-size:22px}.stext{padding:20px 16px 20px 20px;max-width:56%}.sphoto{height:80%;margin-right:12px}.hnav{display:none}}
 </style>
 </head>
 <body>
 <header><div class="hwrap">
-<svg class="logo" role="img" aria-label="Shirotetsu GIRL.S" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"  viewBox="0,0,266.5,254.5"><defs><linearGradient x1="221.23704" y1="12.3125" x2="221.23704" y2="211.60416" gradientUnits="userSpaceOnUse" id="color-1"><stop offset="0" stop-color="#ff4df0"/><stop offset="1" stop-color="#cf4dff"/></linearGradient><linearGradient x1="221.23704" y1="12.3125" x2="221.23704" y2="211.60416" gradientUnits="userSpaceOnUse" id="color-2"><stop offset="0" stop-color="#cc00bb"/><stop offset="1" stop-color="#9600cc"/></linearGradient><linearGradient x1="155.5438" y1="218.52496" x2="155.5438" y2="251.45104" gradientTransform="translate(-137.1935,-354.56807) scale(1.45781,1.45781)" gradientUnits="userSpaceOnUse" id="color-3"><stop offset="0" stop-color="#ff4df0"/><stop offset="1" stop-color="#cf4dff"/></linearGradient><linearGradient x1="146.83256" y1="219.47672" x2="146.83256" y2="251.134" gradientTransform="translate(-137.1935,-354.56807) scale(1.45781,1.45781)" gradientUnits="userSpaceOnUse" id="color-4"><stop offset="0" stop-color="#cc00bb"/><stop offset="1" stop-color="#bd00ff"/></linearGradient><linearGradient x1="285.80452" y1="199.85168" x2="285.80452" y2="258.68192" gradientTransform="translate(-179.28992,-199.06036) scale(0.81591,0.81591)" gradientUnits="userSpaceOnUse" id="color-5"><stop offset="0" stop-color="#ff4df0"/><stop offset="1" stop-color="#cf4dff"/></linearGradient><linearGradient x1="313.94555" y1="201.55233" x2="313.94555" y2="258.11542" gradientTransform="translate(-179.28992,-199.06036) scale(0.81591,0.81591)" gradientUnits="userSpaceOnUse" id="color-6"><stop offset="0" stop-color="#cc00bb"/><stop offset="1" stop-color="#bd00ff"/></linearGradient></defs><g transform="translate(-90.25,-8.40625)"><g stroke-miterlimit="10"><path d="M266.83332,143.32692c0,0 -85.06009,56.083 -100.30341,65.37561c-4.31154,2.6284 -11.69659,2.90162 -11.69659,2.90162c0,0 -0.11719,-4.28319 3.16167,-8.41765c9.81295,-12.37361 62.17166,-73.96422 62.17166,-73.96422l-44.66666,-48.63256c0,0 89.21747,-57.47647 103.33298,-66.08154c3.55124,-2.1649 8.66701,-2.19569 8.66701,-2.19569c0,0 0.86073,2.66221 -1.6667,5.84918c-8.90883,11.23356 -63.66663,76.5327 -63.66663,76.5327z" fill="url(#color-1)" stroke="url(#color-2)" stroke-width="4" stroke-linecap="round"/><text transform="translate(94.10926,243.21952) scale(0.68596,0.68596)" font-size="40" xml:space="preserve" fill="url(#color-3)" stroke="url(#color-4)" stroke-width="1" stroke-linecap="butt" font-family="&quot;Murecho-VariableFont_wght&quot;, Sans Serif" font-weight="normal" text-anchor="start"><tspan x="0" dy="0">Shirotetsu</tspan></text><text transform="translate(219.7431,243.97436) scale(1.22563,1.22563)" font-size="40" xml:space="preserve" fill="url(#color-5)" stroke="url(#color-6)" stroke-width="1" stroke-linecap="butt" font-family="&quot;Murecho-VariableFont_wght&quot;, Sans Serif" font-weight="normal" text-anchor="start"><tspan x="0" dy="0">GIRL.S</tspan></text></g></g></svg>
+<svg class="logo" role="img" aria-label="Shirotetsu GIRL.S" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"  viewBox="0 0 300 254.5"><defs><linearGradient x1="221.23704" y1="12.3125" x2="221.23704" y2="211.60416" gradientUnits="userSpaceOnUse" id="color-1"><stop offset="0" stop-color="#ff4df0"/><stop offset="1" stop-color="#cf4dff"/></linearGradient><linearGradient x1="221.23704" y1="12.3125" x2="221.23704" y2="211.60416" gradientUnits="userSpaceOnUse" id="color-2"><stop offset="0" stop-color="#cc00bb"/><stop offset="1" stop-color="#9600cc"/></linearGradient><linearGradient x1="155.5438" y1="218.52496" x2="155.5438" y2="251.45104" gradientTransform="translate(-137.1935,-354.56807) scale(1.45781,1.45781)" gradientUnits="userSpaceOnUse" id="color-3"><stop offset="0" stop-color="#ff4df0"/><stop offset="1" stop-color="#cf4dff"/></linearGradient><linearGradient x1="146.83256" y1="219.47672" x2="146.83256" y2="251.134" gradientTransform="translate(-137.1935,-354.56807) scale(1.45781,1.45781)" gradientUnits="userSpaceOnUse" id="color-4"><stop offset="0" stop-color="#cc00bb"/><stop offset="1" stop-color="#bd00ff"/></linearGradient><linearGradient x1="285.80452" y1="199.85168" x2="285.80452" y2="258.68192" gradientTransform="translate(-179.28992,-199.06036) scale(0.81591,0.81591)" gradientUnits="userSpaceOnUse" id="color-5"><stop offset="0" stop-color="#ff4df0"/><stop offset="1" stop-color="#cf4dff"/></linearGradient><linearGradient x1="313.94555" y1="201.55233" x2="313.94555" y2="258.11542" gradientTransform="translate(-179.28992,-199.06036) scale(0.81591,0.81591)" gradientUnits="userSpaceOnUse" id="color-6"><stop offset="0" stop-color="#cc00bb"/><stop offset="1" stop-color="#bd00ff"/></linearGradient></defs><g transform="translate(-90.25,-8.40625)"><g stroke-miterlimit="10"><path d="M266.83332,143.32692c0,0 -85.06009,56.083 -100.30341,65.37561c-4.31154,2.6284 -11.69659,2.90162 -11.69659,2.90162c0,0 -0.11719,-4.28319 3.16167,-8.41765c9.81295,-12.37361 62.17166,-73.96422 62.17166,-73.96422l-44.66666,-48.63256c0,0 89.21747,-57.47647 103.33298,-66.08154c3.55124,-2.1649 8.66701,-2.19569 8.66701,-2.19569c0,0 0.86073,2.66221 -1.6667,5.84918c-8.90883,11.23356 -63.66663,76.5327 -63.66663,76.5327z" fill="url(#color-1)" stroke="url(#color-2)" stroke-width="4" stroke-linecap="round"/><text transform="translate(94.10926,243.21952) scale(0.68596,0.68596)" font-size="40" xml:space="preserve" fill="url(#color-3)" stroke="url(#color-4)" stroke-width="1" stroke-linecap="butt" font-family="&quot;Murecho-VariableFont_wght&quot;, Sans Serif" font-weight="normal" text-anchor="start"><tspan x="0" dy="0">Shirotetsu</tspan></text><text transform="translate(219.7431,243.97436) scale(1.22563,1.22563)" font-size="40" xml:space="preserve" fill="url(#color-5)" stroke="url(#color-6)" stroke-width="1" stroke-linecap="butt" font-family="&quot;Murecho-VariableFont_wght&quot;, Sans Serif" font-weight="normal" text-anchor="start"><tspan x="0" dy="0">GIRL.S</tspan></text></g></g></svg>
 <nav id="nav">
   <a href="#home" data-v="home">ホーム</a>
   <a href="#zukan" data-v="zukan">図鑑</a>
@@ -130,6 +152,11 @@ footer{text-align:center;font-size:12px;color:var(--sub);padding:24px}
 </dialog>
 
 <script>
+(function(){
+  const s=document.querySelector('svg.logo'); if(!s) return;
+  const fit=()=>{ try{ const b=s.getBBox(); if(b.width>0) s.setAttribute('viewBox',`${b.x-4} ${b.y-4} ${b.width+8} ${b.height+8}`); }catch(e){} };
+  fit(); if(document.fonts && document.fonts.ready) document.fonts.ready.then(fit);
+})();
 const CSV_FILE = '白鉄ガールズデータ - メンバー一覧.csv';
 const STATS = ['体力','パワー','ガード','コミュ力','学力'];
 const STAT_MAX = 30000;
@@ -316,6 +343,7 @@ function home(){
   const bSoon = soon.slice(0,3).map(x=>personRow(x.m,`あと${x.b.days}日`,`${x.m.bm}月${x.m.bd}日・${x.b.turning}歳`)).join('')
     || '<div class="empty">2週間以内の誕生日はありません</div>';
   $('#view').innerHTML = `
+    <div class="hero loading" id="hero">読み込み中…</div>
     <div class="tiles">
       <div class="tile"><div class="k">所属メンバー</div><div class="v">${members.length}<small> 人</small></div></div>
       <div class="tile"><div class="k">平均年齢</div><div class="v">${fmt(avg(members.map(m=>m.age)))}<small> 歳</small></div></div>
@@ -342,6 +370,56 @@ function home(){
     <div class="panel"><div class="facing">${latest.map(m=>`<div class="row" data-no="${m.no}" style="width:230px">${thumbHTML(m)}<div class="t"><b>${m.name}</b><span>${m.origin}</span></div></div>`).join('')}</div></div>
     <h2 class="sec">メニュー</h2>
     <div class="chips"><a class="chip" href="#zukan" style="text-decoration:none">図鑑でメンバーを探す</a><a class="chip" href="#birthday" style="text-decoration:none">誕生日カレンダー</a><a class="chip" href="#stats" style="text-decoration:none">統計を見る</a></div>`;
+  initHero();
+}
+
+/* ---- ヒーロー（自動スライド） ---- */
+let HERO_T = null;
+function loadImg(m){
+  return new Promise(res=>{
+    const attempt = (u, next) => {
+      let done=false; const i=new Image();
+      const fin = ok => { if(done) return; done=true; clearTimeout(to); ok ? res(u) : next(); };
+      const to = setTimeout(()=>fin(false), 8000);
+      i.onload=()=>fin(true); i.onerror=()=>fin(false); i.src=u;
+    };
+    attempt(m.img, ()=>attempt(m.orig+(m.orig.includes('?')?'&':'?')+'raw=true', ()=>res(null)));
+  });
+}
+async function initHero(){
+  clearInterval(HERO_T);
+  const box=$('#hero'); if(!box) return;
+  const cand=members.filter(m=>m.img).sort((a,b)=>a.no-b.no);
+  const urls=await Promise.all(cand.map(loadImg));
+  if($('#hero')!==box) return;           // 読み込み中に画面が切り替わった
+  const list=cand.map((m,i)=>({m,u:urls[i]})).filter(x=>x.u);
+  if(!list.length){ box.style.display='none'; return; }
+  box.className='hero';
+  box.innerHTML=`${list.map((x,i)=>`<div class="slide${i?'':' on'}" data-no="${x.m.no}">
+      <div class="sbg" style="background-image:url('${x.u}')"></div>
+      <div class="stext"><div class="slabel">${noLabel(x.m)}</div><div class="sname">${x.m.name}</div><div class="syomi">${x.m.yomi}</div>
+        <div class="tags"><span class="tag">${x.m.term}</span><span class="tag">${x.m.origin}</span><span class="tag">${x.m.world}</span></div>
+        <div class="sscore">評価値 <b>${fmt(x.m.rating)}</b></div></div>
+      <div class="sphoto"><img src="${x.u}" alt="${x.m.name}"></div></div>`).join('')}
+    <button class="hnav prev" aria-label="前へ">‹</button><button class="hnav next" aria-label="次へ">›</button>
+    <div class="dots">${list.map((_,i)=>`<button class="dot${i?'':' on'}" data-i="${i}" aria-label="${i+1}枚目"></button>`).join('')}</div>`;
+  const slides=[...box.querySelectorAll('.slide')], dots=[...box.querySelectorAll('.dot')];
+  let idx=0;
+  const show=i=>{ idx=(i+slides.length)%slides.length; slides.forEach((s,k)=>s.classList.toggle('on',k===idx)); dots.forEach((d,k)=>d.classList.toggle('on',k===idx)); };
+  const stop=()=>clearInterval(HERO_T);
+  const play=()=>{
+    stop();
+    if(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    HERO_T=setInterval(()=>{ if($('#hero')!==box){stop();return;} show(idx+1); }, 5000);
+  };
+  box.querySelector('.prev').onclick=()=>{show(idx-1);play();};
+  box.querySelector('.next').onclick=()=>{show(idx+1);play();};
+  dots.forEach(d=>d.onclick=()=>{show(+d.dataset.i);play();});
+  box.onmouseenter=stop; box.onmouseleave=play;
+  let sx=null;
+  box.addEventListener('touchstart',e=>{sx=e.touches[0].clientX;stop();},{passive:true});
+  box.addEventListener('touchend',e=>{ if(sx!=null){const dx=e.changedTouches[0].clientX-sx; if(Math.abs(dx)>40) show(idx+(dx<0?1:-1));} sx=null; play(); });
+  play();
 }
 
 /* =============== 図鑑 =============== */
@@ -508,6 +586,7 @@ function stats(){
 /* =============== ルーティング =============== */
 const VIEWS = {home, zukan, birthday, stats};
 function route(){
+  clearInterval(HERO_T);
   const k = (location.hash||'#home').slice(1);
   const v = VIEWS[k] ? k : 'home';
   document.querySelectorAll('#nav a').forEach(a=>a.classList.toggle('on', a.dataset.v===v));
