@@ -1,0 +1,256 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>白鉄ガールズ</title>
+<style>
+:root{
+  --bg:#fdeaff; --card:#fff; --ink:#3b1647; --sub:#8a5a99;
+  --p1:#ff4fe0; --p2:#c63cff; --edge:#b100c8; --line:#f0c8f7;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Hiragino Sans","Yu Gothic",Meiryo,sans-serif;}
+header{display:flex;align-items:center;gap:16px;padding:12px 20px;background:#fff;border-bottom:3px solid var(--p2);position:sticky;top:0;z-index:5}
+.logo{height:56px;display:block}
+header h1{font-size:15px;margin:0;color:var(--sub);font-weight:600}
+main{max-width:1100px;margin:0 auto;padding:16px}
+.controls{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:10px}
+.controls input,.controls select{padding:8px 10px;border:1px solid var(--line);border-radius:8px;font-size:14px;background:#fff;color:var(--ink)}
+.controls input{flex:1;min-width:160px}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px}
+.chip{border:1px solid var(--p2);color:var(--p2);background:#fff;border-radius:999px;padding:4px 12px;font-size:13px;cursor:pointer}
+.chip.on{background:linear-gradient(135deg,var(--p1),var(--p2));color:#fff;border-color:var(--edge)}
+.count{font-size:13px;color:var(--sub);margin:6px 0 12px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden;cursor:pointer;text-align:left;padding:0;font:inherit;color:inherit;transition:transform .12s,box-shadow .12s}
+.card:hover,.card:focus-visible{transform:translateY(-3px);box-shadow:0 6px 16px rgba(177,0,200,.2);outline:none}
+.photo{aspect-ratio:3/4;background:linear-gradient(160deg,#ffd3f7,#e2b6ff);display:flex;align-items:center;justify-content:center;font-size:56px;color:#fff;font-weight:700;overflow:hidden}
+.photo img{width:100%;height:100%;object-fit:cover;display:block}
+.info{padding:8px 10px 10px}
+.name{font-weight:700;font-size:15px}
+.yomi{font-size:11px;color:var(--sub);margin-bottom:6px}
+.tags{display:flex;gap:4px;flex-wrap:wrap}
+.tag{font-size:11px;padding:1px 7px;border-radius:999px;background:#f6e0ff;color:var(--edge)}
+.score{margin-top:6px;font-size:12px;color:var(--sub)}
+.score b{color:var(--edge);font-size:14px}
+dialog{border:none;border-radius:18px;padding:0;max-width:640px;width:calc(100% - 24px);color:var(--ink)}
+dialog::backdrop{background:rgba(60,0,80,.45)}
+.dhead{display:flex;gap:16px;padding:18px;background:linear-gradient(135deg,#ffe1fa,#ecd0ff)}
+.dhead .photo{width:130px;flex:none;border-radius:12px}
+.dhead h2{margin:0;font-size:22px}
+.dclose{position:absolute;right:10px;top:8px;border:none;background:#fff;border-radius:50%;width:32px;height:32px;font-size:18px;cursor:pointer;color:var(--edge)}
+.dbody{padding:16px 18px 20px;display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:560px){.dbody{grid-template-columns:1fr}.dhead{flex-direction:column;align-items:center;text-align:center}}
+dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:6px 12px;font-size:14px}
+dt{color:var(--sub)}dd{margin:0}
+.bars{margin-top:10px}
+.bar{display:flex;align-items:center;gap:8px;font-size:12px;margin:3px 0}
+.bar span:first-child{width:52px;color:var(--sub)}
+.bar i{flex:1;height:8px;background:#f3dcfb;border-radius:4px;overflow:hidden}
+.bar i b{display:block;height:100%;background:linear-gradient(90deg,var(--p1),var(--p2))}
+.bar span:last-child{width:46px;text-align:right}
+.msg{padding:40px;text-align:center;color:var(--sub);line-height:1.8}
+footer{text-align:center;font-size:12px;color:var(--sub);padding:24px}
+</style>
+</head>
+<body>
+<header>
+  <img class="logo" id="logo" src="sgicon.png" alt="Shirotetsu GIRL.S">
+  <h1>メンバー名鑑</h1>
+</header>
+<main>
+  <div class="controls">
+    <input id="q" type="search" placeholder="名前・読みで検索">
+    <select id="sort">
+      <option value="rating">評価値が高い順</option>
+      <option value="ability">能力評価値が高い順</option>
+      <option value="iq">IQが高い順</option>
+      <option value="no">番号順</option>
+      <option value="age">年下順</option>
+    </select>
+  </div>
+  <div class="chips" id="chipsOrigin"></div>
+  <div class="chips" id="chipsWorld"></div>
+  <div class="count" id="count"></div>
+  <div class="grid" id="grid"></div>
+  <div class="msg" id="msg" hidden></div>
+</main>
+<footer>白鉄ガールズ（架空のアイドル事務所）</footer>
+
+<dialog id="dlg">
+  <button class="dclose" id="dclose" aria-label="閉じる">×</button>
+  <div id="dcontent"></div>
+</dialog>
+
+<script>
+// ロゴが無いときはSVGで代用
+document.getElementById('logo').addEventListener('error', e => {
+  e.target.outerHTML = '<svg class="logo" viewBox="0 0 120 56" aria-label="Shirotetsu GIRL.S"><defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ff4fe0"/><stop offset="1" stop-color="#c63cff"/></linearGradient></defs><path d="M52 2 L12 22 L28 22 L10 50 L40 28 L26 28 Z" fill="url(#g)" stroke="#b100c8" stroke-width="2"/><text x="52" y="40" font-size="18" font-weight="700" fill="#c63cff">GIRL.S</text></svg>';
+});
+
+const COLS = ['体力','パワー','ガード','コミュ力','学力'];
+const STAT_MAX = 30000;
+let members = [];
+let fOrigin = 'すべて', fWorld = 'すべて';
+
+function parseCSV(text){
+  const rows=[]; let row=[], cur='', q=false;
+  text = text.replace(/^\uFEFF/,'');
+  for(let i=0;i<text.length;i++){
+    const c=text[i];
+    if(q){
+      if(c==='"'){ if(text[i+1]==='"'){cur+='"';i++;} else q=false; }
+      else cur+=c;
+    } else if(c==='"') q=true;
+    else if(c===','){row.push(cur);cur='';}
+    else if(c==='\n'||c==='\r'){
+      if(c==='\r'&&text[i+1]==='\n')i++;
+      row.push(cur);cur='';
+      if(row.some(v=>v!==''))rows.push(row);
+      row=[];
+    } else cur+=c;
+  }
+  if(cur!==''||row.length){row.push(cur);rows.push(row);}
+  return rows;
+}
+const num = v => { const n=parseFloat(v); return isNaN(n)?null:n; };
+
+// GitHubのblob URLは画像ではなくHTMLページなので、raw配信URLに変換
+function imgUrl(u){
+  if(!u) return '';
+  const m = u.match(/^https:\/\/github\.com\/([^/]+)\/([^/]+)\/blob\/([^/]+)\/(.+)$/);
+  return m ? `https://raw.githubusercontent.com/${m[1]}/${m[2]}/${m[3]}/${m[4]}` : u;
+}
+
+function ageOf(m){
+  const y=parseInt(m.birthYear), md=(m.birthday||'').match(/(\d+)月(\d+)日/);
+  if(!y) return null;
+  const now=new Date(); let a=now.getFullYear()-y;
+  if(md && (now.getMonth()+1<+md[1] || (now.getMonth()+1===+md[1] && now.getDate()<+md[2]))) a--;
+  return a;
+}
+
+async function load(){
+  try{
+    const res = await fetch('白鉄ガールズデータ - メンバー一覧.csv');
+    if(!res.ok) throw new Error(res.status);
+    const rows = parseCSV(await res.text());
+    const head = rows[0];
+    const idx = n => head.indexOf(n);
+    members = rows.slice(1).map(r=>{
+      const g = n => (r[idx(n)]||'').trim();
+      const h=num(g('身長')), w=num(g('体重'));
+      const m = {
+        no:num(g('番号')), term:g('期'), origin:g('出所'), world:g('世界'),
+        name:g('名前'), yomi:g('読み').replace(/　/g,' '),
+        start:g('活動開始'), birthYear:g('生まれ年'), birthday:g('誕生日'),
+        height:h, weight:w, bmi:(h&&w)?(w/((h/100)**2)).toFixed(1):null,
+        stats:COLS.map(c=>num(g(c))), total:num(g('5項目計')),
+        iq:num(g('IQ')), rating:num(g('評価値')), ability:num(g('能力評価値')),
+        img:imgUrl(g('画像URL'))
+      };
+      m.age=ageOf(m);
+      return m;
+    }).filter(m=>m.name);
+    buildChips(); render();
+  }catch(e){
+    const el=document.getElementById('msg'); el.hidden=false;
+    el.innerHTML='データファイルを読み込めませんでした。<br>index.html と同じ場所にCSVを置き、GitHub Pagesやローカルサーバー経由で開いてください（ファイルを直接開くと読み込めません）。';
+  }
+}
+
+function chipRow(el, label, values, get, set){
+  el.innerHTML='';
+  ['すべて',...values].forEach(v=>{
+    const b=document.createElement('button');
+    b.className='chip'+(get()===v?' on':''); b.textContent=v;
+    b.onclick=()=>{set(v);buildChips();render();};
+    el.appendChild(b);
+  });
+}
+function buildChips(){
+  const uniq = k => [...new Set(members.map(m=>m[k]).filter(Boolean))];
+  chipRow(document.getElementById('chipsOrigin'),'出所',uniq('origin'),()=>fOrigin,v=>fOrigin=v);
+  chipRow(document.getElementById('chipsWorld'),'世界',uniq('world'),()=>fWorld,v=>fWorld=v);
+}
+
+function photoHTML(m){
+  const ch = m.name.replace(/\s/g,'')[0]||'?';
+  return m.img
+    ? `<div class="photo"><img src="${m.img}" alt="${m.name}" loading="lazy" onerror="this.parentNode.textContent='${ch}'"></div>`
+    : `<div class="photo">${ch}</div>`;
+}
+
+function render(){
+  const q=document.getElementById('q').value.trim().toLowerCase().replace(/\s/g,'');
+  const sort=document.getElementById('sort').value;
+  let list = members.filter(m=>
+    (fOrigin==='すべて'||m.origin===fOrigin) &&
+    (fWorld==='すべて'||m.world===fWorld) &&
+    (!q || (m.name+m.yomi).toLowerCase().replace(/\s/g,'').includes(q)));
+  const cmp = {
+    rating:(a,b)=>(b.rating??-1)-(a.rating??-1),
+    ability:(a,b)=>(b.ability??-1)-(a.ability??-1),
+    iq:(a,b)=>(b.iq??-1)-(a.iq??-1),
+    no:(a,b)=>a.no-b.no,
+    age:(a,b)=>(a.age??999)-(b.age??999)
+  }[sort];
+  list.sort(cmp);
+  document.getElementById('count').textContent=`${list.length}人`;
+  const grid=document.getElementById('grid'); grid.innerHTML='';
+  list.forEach(m=>{
+    const b=document.createElement('button'); b.className='card';
+    b.innerHTML=`${photoHTML(m)}<div class="info">
+      <div class="name">${m.name}</div><div class="yomi">${m.yomi}</div>
+      <div class="tags"><span class="tag">${m.origin}</span><span class="tag">${m.term}</span></div>
+      <div class="score">評価値 <b>${m.rating??'—'}</b></div></div>`;
+    b.onclick=()=>openDetail(m);
+    grid.appendChild(b);
+  });
+}
+
+function radar(stats){
+  const cx=100, cy=100, R=70, n=stats.length;
+  const pt=(i,r)=>{const a=-Math.PI/2+i*2*Math.PI/n;return [cx+r*Math.cos(a),cy+r*Math.sin(a)];};
+  let s='<svg viewBox="0 0 200 200" width="100%">';
+  [0.25,0.5,0.75,1].forEach(k=>{
+    s+=`<polygon points="${stats.map((_,i)=>pt(i,R*k).join(',')).join(' ')}" fill="none" stroke="#f0c8f7"/>`;
+  });
+  stats.forEach((_,i)=>{const [x,y]=pt(i,R);s+=`<line x1="${cx}" y1="${cy}" x2="${x}" y2="${y}" stroke="#f0c8f7"/>`;});
+  s+=`<polygon points="${stats.map((v,i)=>pt(i,R*Math.min(1,(v||0)/STAT_MAX)).join(',')).join(' ')}" fill="rgba(198,60,255,.35)" stroke="#b100c8" stroke-width="2"/>`;
+  COLS.forEach((c,i)=>{const [x,y]=pt(i,R+16);s+=`<text x="${x}" y="${y+4}" text-anchor="middle" font-size="11" fill="#8a5a99">${c}</text>`;});
+  return s+'</svg>';
+}
+
+function openDetail(m){
+  const bars = COLS.map((c,i)=>`<div class="bar"><span>${c}</span><i><b style="width:${Math.min(100,(m.stats[i]||0)/STAT_MAX*100)}%"></b></i><span>${m.stats[i]??'—'}</span></div>`).join('');
+  document.getElementById('dcontent').innerHTML=`
+    <div class="dhead">${photoHTML(m)}
+      <div><h2>${m.name}</h2><div class="yomi">${m.yomi}</div>
+      <div class="tags"><span class="tag">${m.origin}</span><span class="tag">${m.term}</span><span class="tag">${m.world}</span></div></div></div>
+    <div class="dbody">
+      <div><dl>
+        <dt>年齢</dt><dd>${m.age!=null?m.age+'歳':'—'}</dd>
+        <dt>誕生日</dt><dd>${m.birthYear} ${m.birthday}</dd>
+        <dt>身長</dt><dd>${m.height?m.height+' cm':'—'}</dd>
+        <dt>体重</dt><dd>${m.weight?m.weight+' kg':'—'}</dd>
+        <dt>BMI</dt><dd>${m.bmi??'—'}</dd>
+        <dt>活動開始</dt><dd>${m.start||'—'}</dd>
+        <dt>IQ</dt><dd>${m.iq??'—'}</dd>
+        <dt>評価値</dt><dd>${m.rating??'—'}</dd>
+        <dt>能力評価値</dt><dd>${m.ability??'—'}</dd>
+      </dl></div>
+      <div>${radar(m.stats)}<div class="bars">${bars}</div></div>
+    </div>`;
+  document.getElementById('dlg').showModal();
+}
+
+document.getElementById('q').addEventListener('input',render);
+document.getElementById('sort').addEventListener('change',render);
+document.getElementById('dclose').onclick=()=>document.getElementById('dlg').close();
+document.getElementById('dlg').addEventListener('click',e=>{if(e.target.id==='dlg')e.target.close();});
+load();
+</script>
+</body>
+</html>
