@@ -4,6 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>白鉄ガールズ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Murecho&display=swap" rel="stylesheet">
 <style>
 :root{
   --bg:#fdeaff; --card:#fff; --ink:#3b1647; --sub:#8a5a99;
@@ -12,7 +14,7 @@
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--ink);font-family:"Hiragino Sans","Yu Gothic",Meiryo,sans-serif;}
 header{display:flex;align-items:center;gap:16px;padding:12px 20px;background:#fff;border-bottom:3px solid var(--p2);position:sticky;top:0;z-index:5}
-.logo{height:56px;display:block}
+.logo{height:72px;width:auto;display:block}
 header h1{font-size:15px;margin:0;color:var(--sub);font-weight:600}
 main{max-width:1100px;margin:0 auto;padding:16px}
 .controls{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:10px}
@@ -56,7 +58,7 @@ footer{text-align:center;font-size:12px;color:var(--sub);padding:24px}
 </head>
 <body>
 <header>
-  <img class="logo" id="logo" src="sgicon.png" alt="Shirotetsu GIRL.S">
+  <svg class="logo" role="img" aria-label="Shirotetsu GIRL.S" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"  viewBox="0,0,266.5,254.5"><defs><linearGradient x1="221.23704" y1="12.3125" x2="221.23704" y2="211.60416" gradientUnits="userSpaceOnUse" id="color-1"><stop offset="0" stop-color="#ff4df0"/><stop offset="1" stop-color="#cf4dff"/></linearGradient><linearGradient x1="221.23704" y1="12.3125" x2="221.23704" y2="211.60416" gradientUnits="userSpaceOnUse" id="color-2"><stop offset="0" stop-color="#cc00bb"/><stop offset="1" stop-color="#9600cc"/></linearGradient><linearGradient x1="155.5438" y1="218.52496" x2="155.5438" y2="251.45104" gradientTransform="translate(-137.1935,-354.56807) scale(1.45781,1.45781)" gradientUnits="userSpaceOnUse" id="color-3"><stop offset="0" stop-color="#ff4df0"/><stop offset="1" stop-color="#cf4dff"/></linearGradient><linearGradient x1="146.83256" y1="219.47672" x2="146.83256" y2="251.134" gradientTransform="translate(-137.1935,-354.56807) scale(1.45781,1.45781)" gradientUnits="userSpaceOnUse" id="color-4"><stop offset="0" stop-color="#cc00bb"/><stop offset="1" stop-color="#bd00ff"/></linearGradient><linearGradient x1="285.80452" y1="199.85168" x2="285.80452" y2="258.68192" gradientTransform="translate(-179.28992,-199.06036) scale(0.81591,0.81591)" gradientUnits="userSpaceOnUse" id="color-5"><stop offset="0" stop-color="#ff4df0"/><stop offset="1" stop-color="#cf4dff"/></linearGradient><linearGradient x1="313.94555" y1="201.55233" x2="313.94555" y2="258.11542" gradientTransform="translate(-179.28992,-199.06036) scale(0.81591,0.81591)" gradientUnits="userSpaceOnUse" id="color-6"><stop offset="0" stop-color="#cc00bb"/><stop offset="1" stop-color="#bd00ff"/></linearGradient></defs><g transform="translate(-90.25,-8.40625)"><g stroke-miterlimit="10"><path d="M266.83332,143.32692c0,0 -85.06009,56.083 -100.30341,65.37561c-4.31154,2.6284 -11.69659,2.90162 -11.69659,2.90162c0,0 -0.11719,-4.28319 3.16167,-8.41765c9.81295,-12.37361 62.17166,-73.96422 62.17166,-73.96422l-44.66666,-48.63256c0,0 89.21747,-57.47647 103.33298,-66.08154c3.55124,-2.1649 8.66701,-2.19569 8.66701,-2.19569c0,0 0.86073,2.66221 -1.6667,5.84918c-8.90883,11.23356 -63.66663,76.5327 -63.66663,76.5327z" fill="url(#color-1)" stroke="url(#color-2)" stroke-width="4" stroke-linecap="round"/><text transform="translate(94.10926,243.21952) scale(0.68596,0.68596)" font-size="40" xml:space="preserve" fill="url(#color-3)" stroke="url(#color-4)" stroke-width="1" stroke-linecap="butt" font-family="&quot;Murecho-VariableFont_wght&quot;, Sans Serif" font-weight="normal" text-anchor="start"><tspan x="0" dy="0">Shirotetsu</tspan></text><text transform="translate(219.7431,243.97436) scale(1.22563,1.22563)" font-size="40" xml:space="preserve" fill="url(#color-5)" stroke="url(#color-6)" stroke-width="1" stroke-linecap="butt" font-family="&quot;Murecho-VariableFont_wght&quot;, Sans Serif" font-weight="normal" text-anchor="start"><tspan x="0" dy="0">GIRL.S</tspan></text></g></g></svg>
   <h1>メンバー名鑑</h1>
 </header>
 <main>
@@ -84,11 +86,6 @@ footer{text-align:center;font-size:12px;color:var(--sub);padding:24px}
 </dialog>
 
 <script>
-// ロゴが無いときはSVGで代用
-document.getElementById('logo').addEventListener('error', e => {
-  e.target.outerHTML = '<svg class="logo" viewBox="0 0 120 56" aria-label="Shirotetsu GIRL.S"><defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ff4fe0"/><stop offset="1" stop-color="#c63cff"/></linearGradient></defs><path d="M52 2 L12 22 L28 22 L10 50 L40 28 L26 28 Z" fill="url(#g)" stroke="#b100c8" stroke-width="2"/><text x="52" y="40" font-size="18" font-weight="700" fill="#c63cff">GIRL.S</text></svg>';
-});
-
 const COLS = ['体力','パワー','ガード','コミュ力','学力'];
 const STAT_MAX = 30000;
 let members = [];
@@ -137,7 +134,8 @@ async function load(){
     if(!res.ok) throw new Error(res.status);
     const rows = parseCSV(await res.text());
     const head = rows[0];
-    const idx = n => head.indexOf(n);
+    const ALIAS = {'身長':['身長','新帳']};
+    const idx = n => { for (const k of (ALIAS[n]||[n])) { const i = head.indexOf(k); if (i>=0) return i; } return -1; };
     members = rows.slice(1).map(r=>{
       const g = n => (r[idx(n)]||'').trim();
       const h=num(g('身長')), w=num(g('体重'));
@@ -148,7 +146,7 @@ async function load(){
         height:h, weight:w, bmi:(h&&w)?(w/((h/100)**2)).toFixed(1):null,
         stats:COLS.map(c=>num(g(c))), total:num(g('5項目計')),
         iq:num(g('IQ')), rating:num(g('評価値')), ability:num(g('能力評価値')),
-        img:imgUrl(g('画像URL'))
+        img:imgUrl(g('画像URL')), orig:g('画像URL')
       };
       m.age=ageOf(m);
       return m;
@@ -175,10 +173,16 @@ function buildChips(){
   chipRow(document.getElementById('chipsWorld'),'世界',uniq('world'),()=>fWorld,v=>fWorld=v);
 }
 
+function imgFail(img, ch){
+  if(!img.dataset.alt && img.dataset.orig){
+    img.dataset.alt='1';
+    img.src = img.dataset.orig + (img.dataset.orig.includes('?')?'&':'?') + 'raw=true';
+  } else img.parentNode.textContent = ch;
+}
 function photoHTML(m){
   const ch = m.name.replace(/\s/g,'')[0]||'?';
   return m.img
-    ? `<div class="photo"><img src="${m.img}" alt="${m.name}" loading="lazy" onerror="this.parentNode.textContent='${ch}'"></div>`
+    ? `<div class="photo"><img src="${m.img}" data-orig="${m.orig}" alt="${m.name}" loading="lazy" onerror="imgFail(this,'${ch}')"></div>`
     : `<div class="photo">${ch}</div>`;
 }
 
